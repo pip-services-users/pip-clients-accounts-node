@@ -1,26 +1,25 @@
-# Client API (version 1) <br/> Users Microservices Client SDK for Node.js
+# Client API (version 1) <br/> User Accounts Microservices Client SDK for Node.js
 
-Node.js client API for Users microservice is a thin layer on the top of
+Node.js client API for User accounts microservice is a thin layer on the top of
 communication protocols. It hides details related to specific protocol implementation
 and provides high-level API to access the microservice for simple and productive development.
 
 * [Installation](#install)
 * [Getting started](#get_started)
-* [User class](#class1)
-* [UserPage class](#class2)
-* [IUsersClient interface](#interface)
-    - [init()](#operation1)
-    - [open()](#operation2)
-    - [close()](#operation3)
-    - [getUsers()](#operation4)
-    - [findUser()](#operation5)
-    - [getUsetById()](#operation6)
-    - [createUser()](#operation7)
-    - [updateUser()](#operation8)
-    - [deleteUser()](#operation9)
-* [UsersRestClient class](#client_rest)
-* [UsersSenecaClient class](#client_seneca)
-* [UsersNullClient class](#client_null)
+* [AccountV1 class](#class1)
+* [IAccountsClientV1 interface](#interface)
+    - [getAccounts()](#operation1)
+    - [getAccountById()](#operation2)
+    - [getAccountByLogin()](#operation3)
+    - [getAccountByIdOrLogin()](#operation4)
+    - [createAccount()](#operation5)
+    - [updateAccount()](#operation6)
+    - [deleteAccountById()](#operation7)
+* [AccountsHttplientV1 class](#client_http)
+* [AccountsSenecaClientV1 class](#client_seneca)
+* [AccountsDitectClientV1 class](#client_direct)
+* [AccountsMemoryClientV1 class](#client_memory)
+* [AccountsNullClientV1 class](#client_null)
 
 ## <a name="install"></a> Installation
 
@@ -31,7 +30,7 @@ To work with the client SDK add dependency into package.json file:
     ...
     "dependencies": {
         ....
-        "pip-clients-users-node": "git+ssh://git@github.com:pip-services/pip-clients-users-node.git",
+        "pip-clients-accounts-node": "git+ssh://git@github.com:pip-services/pip-clients-accounts-node.git",
         ...
     }
 }
@@ -47,33 +46,28 @@ npm install
 npm update
 ```
 
-If you are using Typescript, add the following type definition where compiler can find it
-```javascript
-/// <reference path="../node_modules/pip-clients-users-node/module.d.ts" />
-```
-
 ## <a name="get_started"></a> Getting started
 
 This is a simple example on how to work with the microservice using REST client:
 
 ```javascript
 // Get Client SDK for Version 1 
-var sdk = new require('pip-clients-users-node').Version1;
+var sdk = new require('pip-clients-accounts-node');
 
 // Client configuration
 var config = {
-    transport: {
-        type: 'http',
+    connection: {
+        protocol: 'http',
         host: 'localhost', 
         port: 8009
     }
 };
 
 // Create the client instance
-var client = sdk.UsersRestClient(config);
+var client = sdk.AccountsHttpClientV1(config);
 
 // Open client connection to the microservice
-client.open(function(err) {
+client.open(null, function(err) {
     if (err) {
         console.error(err);
         return; 
@@ -81,34 +75,35 @@ client.open(function(err) {
     
     console.log('Opened connection');
         
-    // Register a new user
-    client.createUser(
+    // Register a new account
+    client.createAccount(
+        null,
         { 
-            name: 'Test User',
-            email: 'somebody@somewhere.com',
+            name: 'Test Account',
+            login: 'somebody@somewhere.com',
             password: 'test123'
         },
-        function (err, user) {
+        function (err, account) {
             if (err) {
                 console.error(err);
                 return;
             }
             
             console.log('Registered user account is');
-            console.log(user);
+            console.log(account);
             
-            // Find created user
-            client.findUser(
+            // Find created account
+            client.getAccountByLogin(
                 null,
                 'somebody@somewhere.com',
-                function(err, user) {
+                function(err, account) {
                     if (err) {
                         console.error(err);
                         return;
                     }
                     
-                    console.log('Found user is');
-                    console.log(user);
+                    console.log('Found account is');
+                    console.log(account);
                     
                     // Close connection
                     client.close(); 
@@ -121,201 +116,233 @@ client.open(function(err) {
 
 ## Data types
 
-### <a name="class1"></a> User class
+### <a name="class1"></a> AccountV1 class
 
-Represents a user account with his ID, name, email, password and key settings.
+Represents a account account with his ID, name, email, password and key settings.
 It also tracks signup/signin dates and authentication attempts. 
 
 **Properties:**
-- id: string - unique user id
-- name: string - full user name (first and last name)
-- email: string - primary user email that is unique and used as login
-- created: Date - date and time when user account was created
-- active: boolean - true if user account is active, and false for disabled accounts
-- time_zone: int - user selected timezone
-- language: string - user selected language (and culture)
-- theme: string - user selected application color theme
+- id: string - unique account id
+- name: string - full account name (first and last name)
+- login: string - user login or primary email if controller is configured so
+- create_time: Date - date and time when account account was created
+- active: boolean - true if account account is active, and false for disabled accounts
+- time_zone: int - account selected timezone
+- language: string - account selected language (and culture)
+- theme: string - account selected application color theme
 - custom_hdr: Object - custom data summary that is always returned (in list and details)
 - custom_dat: Object - custom data details that is returned only when a single object is returned (details)
 
-### <a name="class2"></a> UserPage class
+## <a name="interface"></a> IAccountsClientV1 interface
 
-Represents a paged result with subset of requested User objects
-
-**Properties:**
-- data: [User] - array of retrieved User page
-- count: int - total number of objects in retrieved resultset
-
-## <a name="interface"></a> IUsersClient interface
-
-If you are using Typescript, you can use IUsersClient as a common interface across all client implementations. 
-If you are using plain Javascript, you shall not worry about IUsersClient interface. You can just expect that
+If you are using Typescript, you can use IAccountsClientV1 as a common interface across all client implementations. 
+If you are using plain Javascript, you shall not worry about IAccountsClientV1 interface. You can just expect that
 all methods defined in this interface are implemented by all client classes.
 
 ```javascript
-interface IUsersClient {
-    init(refs, callback);
-    open(callback);
-    close(callback);
-    getUsers(filter, paging, callback);
-    findUser(userId, email, callback);
-    getUserById(userId, callback);
-    createUser(user, callback);
-    updateUser(userId, user, callback);
-    deleteUser(userId, callback);
+interface IAccountsClientV1 {
+    getAccounts(correlationId, filter, paging, callback);
+    getAccountById(correlationId, id, callback);
+    getAccountByLogin(correlationId, login, callback);
+    getAccountByIdOrLoging(correlationId, idOrLogin, callback);
+    createAccount(correlationId, account, callback);
+    updateAccount(correlationId, , account, callback);
+    deleteAccountById(correlationId, accountId, callback);
 }
 ```
 
-### <a name="operation1"></a> init(refs, callback)
+### <a name="operation1"></a> getAccounts(filter, paging, callback)
 
-Initializes client references. This method is optional. It is used to set references 
-to logger or performance counters.
-
-**Arguments:**
-- refs: References - references to other components 
-  - log: ILog - reference to logger
-  - countes: ICounters - reference to performance counters
-- callback: (err) => void - callback function
-  - err - Error or null is no error occured
-
-### <a name="operation2"></a> open(callback)
-
-Opens connection to the microservice
-
-**Arguments:**
-- callback: (err) => void - callback function
-  - err - Error or null is no error occured
-
-### <a name="operation3"></a> close(callback)
-
-Closes connection to the microservice
-
-**Arguments:**
-- callback: (err) => void - callback function
-  - err - Error or null is no error occured
-
-### <a name="operation4"></a> getUsers(filter, paging, callback)
-
-Retrieves a list of users by specified criteria
+Retrieves a page of accounts by specified criteria
 
 **Arguments:** 
+- correlationId: string - id that uniquely identifies transaction
 - filter: object - filter parameters
-  - email: string - (optional) user email address
-  - name: string - (optional) user full name
-  - active: boolean - (optional) user active flag
-  - lock: string - (optional) user lock flag
-  - search: string - (optional) full-text search by name and email
+  - search: string - (optional) search substring to find in source, type or message
+  - id: string - (optional) account id
+  - login: string - (optional) user login
+  - name: stromg - (optional) user name
+  - from\_create\_time: Date - (optional) start of the time range
+  - to\_create\_time: Date - (optional) end of the time range
 - paging: object - paging parameters
-  - paging: bool - (optiona) true to enable paging and return total count
-  - skip: int - (optional) start of page (default: 0). Operation returns paged result
-  - take: int - (optional) page length (max: 100). Operation returns paged result
+  - skip: int - (optional) start of page (default: 0)
+  - take: int - (optional) page length (default: 100)
+  - total: boolean - (optional) include total counter into paged result (default: false)
 - callback: (err, page) => void - callback function
   - err: Error - occured error or null for success
-  - page: UserPage - retrieved User objects in paged format
+  - page: DataPage<AccountV1> - retrieved Account objects in paged format
 
-### <a name="operation5"></a> findUser(userId, email, callback)
+### <a name="operation2"></a> getAccountById(correlationId, id, callback)
 
-Finds a user by unique id or email
-
-**Arguments:** 
-- userId: string - (optional) unique user id
-- email: string - (optional) user primary email 
-- callback: (err, user) => void - callback function
-  - err: Error - occured error or null for success
-  - user: User - User account or null if user wasn't found
-
-### <a name="operation6"></a> getUserById(userId, callback)
-
-Retrieves user account by its unique id. 
-It throws an error when requested account is not found.
+Gets an account by its unique id
 
 **Arguments:** 
-- userId: string - unique user id
-- callback: (err, user) => void - callback function
+- correlationId: string - id that uniquely identifies transaction
+- id: string - (optional) unique account id
+- callback: (err, account) => void - callback function
   - err: Error - occured error or null for success
-  - user: User - created User account
+  - account: AccountV1 - Account account or null if account wasn't found
 
-### <a name="operation7"></a> createUser(user, callback)
+### <a name="operation3"></a> getAccountByLogin(correlationId, login, callback)
 
-Registers a new user in the system and creates an account for him.
+Retrieves account account by user login.
 
 **Arguments:** 
-- user: User - user account info that includes
-  - id: string - (optional) unique user id generated by the client
-  - name: string - full user name
-  - email: string - unique primary user email address
-  - password: string - user password
-  - ... - other optional user settings like time_zone, language or theme
-- callback: (err, user) => void - callback function
+- correlationId: string - id that uniquely identifies transaction
+- login: string - user login
+- callback: (err, account) => void - callback function
   - err: Error - occured error or null for success
-  - user: User - created User account
+  - account: AccountV1 - created Account account
+
+### <a name="operation4"></a> getAccountByIdOrLogin(correlationId, idOrLogin, callback)
+
+Retrieves account account by user login.
+
+**Arguments:** 
+- correlationId: string - id that uniquely identifies transaction
+- idOrLogin: string - unique account id
+- callback: (err, account) => void - callback function
+  - err: Error - occured error or null for success
+  - account: AccountV1 - created Account account
+
+### <a name="operation5"></a> createAccount(correlationId, account, callback)
+
+Registers a new account in the system and creates an account for him.
+
+**Arguments:** 
+- correlationId: string - id that uniquely identifies transaction
+- account: AccountV1 - user account to be created
+- callback: (err, account) => void - callback function
+  - err: Error - occured error or null for success
+  - account: AccountV1 - created Account account
  
-### <a name="operation8"></a> updateUser(userId, user, callback)
+### <a name="operation6"></a> updateAccount(correlationId, account, callback)
 
-Changes user name, primary email or account settings.
+Changes account name, primary email or account settings.
 
 **Arguments:** 
-- userId: string - unique user id
-- user: User - user account with new settings (partial updates are supported)
-- callback: (err, user) => void - callback function
+- correlationId: string - id that uniquely identifies transaction
+- account: AccountV1 - account account with new settings (partial updates are supported)
+- callback: (err, account) => void - callback function
   - err: Error - occured error or null for success
-  - user: User - updated User account
+  - account: AccountV1 - updated Account account
 
-### <a name="operation9"></a> deleteUser(userId, callback)
+### <a name="operation7"></a> deleteAccount(correlationId, id, callback)
 
-Deletes user account from the system (use it carefully!)
+Deletes account account from the system (use it carefully!)
 
 **Arguments:** 
-- userId: string - unique user id
-- callback: (err, user) => void - callback function
+- correlationId: string - id that uniquely identifies transaction
+- id: string - unique account id
+- callback: (err, account) => void - callback function
   - err: Error - occured error or null for success
  
-## <a name="client_rest"></a> UsersRestClient class
+## <a name="client_http"></a> AccountsHttpClientV1 class
 
-UsersRestClient is a client that implements HTTP/REST protocol
+AccountsHttpClientV1 is a client that implements HTTP protocol
 
 ```javascript
-class UsersRestClient extends RestClient implements IUsersClient {
+class AccountsHttpClientV1 extends CommandableClientV1 implements IAccountsClientV1 {
     constructor(config?: any);
-    init(refs, callback);
-    open(callback);
-    close(callback);
-    getUsers(filter, paging, callback);
-    findUser(userId, email, callback);
-    getUserById(userId, callback);
-    createUser(user, callback);
-    updateUser(userId, user, callback);
-    deleteUser(userId, callback);
+    setReferences(references);
+    open(correlationId, callback);
+    close(correlationId, callback);
+    getAccounts(correlationId, filter, paging, callback);
+    getAccountById(correlationId, id, callback);
+    getAccountByLogin(correlationId, login, callback);
+    getAccountByIdOrLoging(correlationId, idOrLogin, callback);
+    createAccount(correlationId, account, callback);
+    updateAccount(correlationId, , account, callback);
+    deleteAccountById(correlationId, accountId, callback);
 }
 ```
 
 **Constructor config properties:** 
-- transport: object - HTTP transport configuration options
-  - type: string - HTTP protocol - 'http' or 'https' (default is 'http')
+- connection: object - HTTP transport configuration options
+  - protocol: string - HTTP protocol - 'http' or 'https' (default is 'http')
   - host: string - IP address/hostname binding (default is '0.0.0.0')
   - port: number - HTTP port number
 
-## <a name="client_seneca"></a> UsersSenecaClient class
+## <a name="client_seneca"></a> AccountsSenecaClientV1 class
 
-UsersSenecaClient is a client that implements Seneca protocol
+AccountsSenecaClientV1 is a client that implements Seneca protocol
 
 ```javascript
-class UsersSenecaClient extends SenecaClient implements IUsersClient {
-    constructor(config?: any);        
-    init(refs, callback);
-    open(callback);
-    close(callback);
-    getUsers(filter, paging, callback);
-    findUser(userId, email, callback);
-    getUserById(userId, callback);
-    createUser(user, callback);
-    updateUser(userId, user, callback);
-    deleteUser(userId, callback);
+class AccountsSenecaClientV1 extends CommandableSenecaClient implements IAccountsClientV1 {
+    constructor(config?: any);
+    setReferences(references);
+    open(correlationId, callback);
+    close(correlationId, callback);
+    getAccounts(correlationId, filter, paging, callback);
+    getAccountById(correlationId, id, callback);
+    getAccountByLogin(correlationId, login, callback);
+    getAccountByIdOrLoging(correlationId, idOrLogin, callback);
+    createAccount(correlationId, account, callback);
+    updateAccount(correlationId, , account, callback);
+    deleteAccountById(correlationId, accountId, callback);
 }
 ```
 
 **Constructor config properties:** 
-- transport: object - (optional) Seneca transport configuration options. See http://senecajs.org/api/ for details.
-  - type: string - Seneca transport type 
+- connection: object - (optional) Seneca transport configuration options. See http://senecajs.org/api/ for details.
+  - protocol: string - Seneca transport type 
   - host: string - IP address/hostname binding (default is '0.0.0.0')
   - port: number - Seneca port number
+
+## <a name="client_seneca"></a> AccountsDirectClientV1 class
+
+AccountsDirectClientV1 is a client that calls controller from the same container.
+It can be used in monolytic deployments
+
+```javascript
+class AccountsDirectClientV1 extends DirectClient implements IAccountsClientV1 {
+    constructor(config?: any);
+    setReferences(references);
+    open(correlationId, callback);
+    close(correlationId, callback);
+    getAccounts(correlationId, filter, paging, callback);
+    getAccountById(correlationId, id, callback);
+    getAccountByLogin(correlationId, login, callback);
+    getAccountByIdOrLoging(correlationId, idOrLogin, callback);
+    createAccount(correlationId, account, callback);
+    updateAccount(correlationId, , account, callback);
+    deleteAccountById(correlationId, accountId, callback);
+}
+```
+
+## <a name="client_memory"></a> AccountsMemoryClientV1 class
+
+AccountsMemoryClientV1 is a dummy client that caches accounts locally in memory.
+It is intended to be used as a mock in tests.
+
+```javascript
+class AccountsMemoryClientV1 extends CommandableSenecaClient implements IAccountsClientV1 {
+    constructor(config?: any);
+    getAccounts(correlationId, filter, paging, callback);
+    getAccountById(correlationId, id, callback);
+    getAccountByLogin(correlationId, login, callback);
+    getAccountByIdOrLoging(correlationId, idOrLogin, callback);
+    createAccount(correlationId, account, callback);
+    updateAccount(correlationId, , account, callback);
+    deleteAccountById(correlationId, accountId, callback);
+}
+```
+
+## <a name="client_null"></a> AccountsNullClientV1 class
+
+AccountsNullClientV1 is a dummy client that doesn't do anything.
+It is intended to be used as a dummy mock in tests.
+
+```javascript
+class AccountsNullClientV1 implements IAccountsClientV1 {
+    constructor(config?: any);
+    getAccounts(correlationId, filter, paging, callback);
+    getAccountById(correlationId, id, callback);
+    getAccountByLogin(correlationId, login, callback);
+    getAccountByIdOrLoging(correlationId, idOrLogin, callback);
+    createAccount(correlationId, account, callback);
+    updateAccount(correlationId, , account, callback);
+    deleteAccountById(correlationId, accountId, callback);
+}
+```
+

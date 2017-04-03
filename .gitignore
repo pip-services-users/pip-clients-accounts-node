@@ -1,6 +1,5 @@
 /node_modules
 /npm-debug.log
 /.idea
-/config/config.json
-/data/users.test.json
 /dist
+/obj/test
