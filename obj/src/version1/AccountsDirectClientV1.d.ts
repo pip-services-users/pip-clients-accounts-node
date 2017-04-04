@@ -6,7 +6,7 @@ import { IAccountsClientV1 } from './IAccountsClientV1';
 import { IAccountsBusinessLogic } from 'pip-services-accounts-node';
 import { AccountV1 } from './AccountV1';
 export declare class AccountsDirectClientV1 extends DirectClient<IAccountsBusinessLogic> implements IAccountsClientV1 {
-    constructor();
+    constructor(config?: any);
     getAccounts(correlationId: string, filter: FilterParams, paging: PagingParams, callback: (err: any, page: DataPage<AccountV1>) => void): void;
     getAccountById(correlationId: string, id: string, callback: (err: any, account: AccountV1) => void): void;
     getAccountByLogin(correlationId: string, login: string, callback: (err: any, account: AccountV1) => void): void;

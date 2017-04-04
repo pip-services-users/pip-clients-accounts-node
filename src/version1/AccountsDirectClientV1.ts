@@ -1,3 +1,4 @@
+import { ConfigParams } from 'pip-services-commons-node';
 import { IReferences } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
 import { FilterParams } from 'pip-services-commons-node';
@@ -11,9 +12,12 @@ import { AccountV1 } from './AccountV1';
 
 export class AccountsDirectClientV1 extends DirectClient<IAccountsBusinessLogic> implements IAccountsClientV1 {
             
-    public constructor() {
+    public constructor(config?: any) {
         super();
-        this._dependencyResolver.put('controller', new Descriptor("pip-services-accounts", "controller", "*", "*", "*"))
+        this._dependencyResolver.put('controller', new Descriptor("pip-services-accounts", "controller", "*", "*", "*"));
+
+        if (config)
+            this.configure(ConfigParams.fromValue(config));
     }
 
     public getAccounts(correlationId: string, filter: FilterParams, paging: PagingParams,

@@ -1,11 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
+const pip_services_commons_node_2 = require("pip-services-commons-node");
 const pip_services_net_node_1 = require("pip-services-net-node");
 class AccountsDirectClientV1 extends pip_services_net_node_1.DirectClient {
-    constructor() {
+    constructor(config) {
         super();
-        this._dependencyResolver.put('controller', new pip_services_commons_node_1.Descriptor("pip-services-accounts", "controller", "*", "*", "*"));
+        this._dependencyResolver.put('controller', new pip_services_commons_node_2.Descriptor("pip-services-accounts", "controller", "*", "*", "*"));
+        if (config)
+            this.configure(pip_services_commons_node_1.ConfigParams.fromValue(config));
     }
     getAccounts(correlationId, filter, paging, callback) {
         let timing = this.instrument(correlationId, 'accounts.get_accounts');
