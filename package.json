@@ -1,8 +1,8 @@
 {
-    "name": "pip-clients-users-node",
+    "name": "pip-clients-accounts-node",
     "version": "1.0.0",
     "author": "Conceptual Vision Consulting LLC",
-    "description": "Node.js client sdk for pip-services-users microservice",
+    "description": "Node.js client sdk for pip-services-accounts microservice",
     "contributors": [
         {
             "name": "Sergey Seroukhov",
