@@ -15,7 +15,7 @@ and provides high-level API to access the microservice for simple and productive
     - [createAccount()](#operation5)
     - [updateAccount()](#operation6)
     - [deleteAccountById()](#operation7)
-* [AccountsHttplientV1 class](#client_http)
+* [AccountsHttpClientV1 class](#client_http)
 * [AccountsSenecaClientV1 class](#client_seneca)
 * [AccountsDitectClientV1 class](#client_direct)
 * [AccountsMemoryClientV1 class](#client_memory)
