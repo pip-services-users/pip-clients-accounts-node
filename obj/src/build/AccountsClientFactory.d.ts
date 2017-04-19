@@ -1,6 +1,6 @@
 import { Descriptor } from 'pip-services-commons-node';
 import { Factory } from 'pip-services-commons-node';
-export declare class AccountsFactory extends Factory {
+export declare class AccountsClientFactory extends Factory {
     static Descriptor: Descriptor;
     static NullClientV1Descriptor: Descriptor;
     static MemoryClientV1Descriptor: Descriptor;

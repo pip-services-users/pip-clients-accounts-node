@@ -4,6 +4,6 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./version1"));
-var AccountsFactory_1 = require("./build/AccountsFactory");
-exports.AccountsFactory = AccountsFactory_1.AccountsFactory;
+var AccountsClientFactory_1 = require("./build/AccountsClientFactory");
+exports.AccountsClientFactory = AccountsClientFactory_1.AccountsClientFactory;
 //# sourceMappingURL=index.js.map

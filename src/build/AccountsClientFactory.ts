@@ -7,7 +7,7 @@ import { AccountsDirectClientV1 } from '../version1/AccountsDirectClientV1';
 import { AccountsHttpClientV1 } from '../version1/AccountsHttpClientV1';
 import { AccountsSenecaClientV1 } from '../version1/AccountsSenecaClientV1';
 
-export class AccountsFactory extends Factory {
+export class AccountsClientFactory extends Factory {
 	public static Descriptor: Descriptor = new Descriptor('pip-services-accounts', 'factory', 'default', 'default', '1.0');
 	public static NullClientV1Descriptor = new Descriptor('pip-services-accounts', 'client', 'null', 'default', '1.0');
 	public static MemoryClientV1Descriptor = new Descriptor('pip-services-accounts', 'client', 'memory', 'default', '1.0');
@@ -18,11 +18,11 @@ export class AccountsFactory extends Factory {
 	constructor() {
 		super();
 
-		this.registerAsType(AccountsFactory.NullClientV1Descriptor, AccountsNullClientV1);
-		this.registerAsType(AccountsFactory.MemoryClientV1Descriptor, AccountsMemoryClientV1);
-		this.registerAsType(AccountsFactory.DirectClientV1Descriptor, AccountsDirectClientV1);
-		this.registerAsType(AccountsFactory.HttpClientV1Descriptor, AccountsHttpClientV1);
-		this.registerAsType(AccountsFactory.SenecaClientV1Descriptor, AccountsSenecaClientV1);
+		this.registerAsType(AccountsClientFactory.NullClientV1Descriptor, AccountsNullClientV1);
+		this.registerAsType(AccountsClientFactory.MemoryClientV1Descriptor, AccountsMemoryClientV1);
+		this.registerAsType(AccountsClientFactory.DirectClientV1Descriptor, AccountsDirectClientV1);
+		this.registerAsType(AccountsClientFactory.HttpClientV1Descriptor, AccountsHttpClientV1);
+		this.registerAsType(AccountsClientFactory.SenecaClientV1Descriptor, AccountsSenecaClientV1);
 	}
 	
 }
