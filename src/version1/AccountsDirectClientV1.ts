@@ -7,10 +7,10 @@ import { DataPage } from 'pip-services-commons-node';
 import { DirectClient } from 'pip-services-net-node';
 
 import { IAccountsClientV1 } from './IAccountsClientV1';
-import { IAccountsBusinessLogic } from 'pip-services-accounts-node';
+//import { IAccountsController } from 'pip-services-accounts-node';
 import { AccountV1 } from './AccountV1';
 
-export class AccountsDirectClientV1 extends DirectClient<IAccountsBusinessLogic> implements IAccountsClientV1 {
+export class AccountsDirectClientV1 extends DirectClient<any> implements IAccountsClientV1 {
             
     public constructor(config?: any) {
         super();
