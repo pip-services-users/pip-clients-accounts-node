@@ -4,6 +4,7 @@ let assert = require('chai').assert;
 
 import { AccountV1 } from '../../src/version1/AccountV1';
 import { IAccountsClientV1 } from '../../src/version1/IAccountsClientV1';
+import { access } from 'fs';
 
 let ACCOUNT1 = new AccountV1('1', 'Test Account 1', 'user1@conceptual.vision');
 let ACCOUNT2 = new AccountV1('2', 'Test Account 2', 'user2@conceptual.vision');
@@ -124,7 +125,9 @@ export class AccountsClientFixtureV1 {
                     (err, account) => {
                         assert.isNull(err);
                         
-                        assert.isNull(account || null);
+                        assert.isObject(account);
+                        assert.isTrue(account.deleted);
+                        //assert.isNull(account || null);
 
                         callback();
                     }

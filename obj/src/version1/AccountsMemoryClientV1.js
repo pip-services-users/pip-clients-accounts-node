@@ -32,6 +32,7 @@ class AccountsMemoryClientV1 {
         let active = filter.getAsNullableBoolean('active');
         let fromCreateTime = filter.getAsNullableDateTime('from_create_time');
         let toCreateTime = filter.getAsNullableDateTime('to_create_time');
+        let deleted = filter.getAsBooleanWithDefault('deleted', false);
         return (item) => {
             if (search != null && !this.matchSearch(item, search))
                 return false;
@@ -46,6 +47,8 @@ class AccountsMemoryClientV1 {
             if (fromCreateTime != null && item.create_time >= fromCreateTime)
                 return false;
             if (toCreateTime != null && item.create_time < toCreateTime)
+                return false;
+            if (!deleted && item.deleted)
                 return false;
             return true;
         };
@@ -111,7 +114,8 @@ class AccountsMemoryClientV1 {
             callback(null, null);
             return;
         }
-        this._accounts.splice(index, 1);
+        item.deleted = true;
+        //this._accounts.splice(index, 1);
         if (callback)
             callback(null, item);
     }

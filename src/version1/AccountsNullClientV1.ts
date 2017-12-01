@@ -5,7 +5,6 @@ import { PagingParams} from 'pip-services-commons-node';
 import { DataPage } from 'pip-services-commons-node';
 
 import { IAccountsClientV1 } from './IAccountsClientV1';
-import { IAccountsBusinessLogic } from 'pip-services-accounts-node';
 import { AccountV1 } from './AccountV1';
 
 export class AccountsNullClientV1 implements IAccountsClientV1 {
