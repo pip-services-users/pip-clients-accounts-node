@@ -11,7 +11,7 @@ import { IAccountsClientV1 } from './IAccountsClientV1';
 export class AccountsHttpClientV1 extends CommandableHttpClient implements IAccountsClientV1 {
 
     constructor(config?: any) {
-        super('accounts');
+        super('v1/accounts');
 
         if (config != null)
             this.configure(ConfigParams.fromValue(config));
