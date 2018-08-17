@@ -1,7 +1,7 @@
 import { FilterParams } from 'pip-services-commons-node';
 import { PagingParams } from 'pip-services-commons-node';
 import { DataPage } from 'pip-services-commons-node';
-import { CommandableHttpClient } from 'pip-services-net-node';
+import { CommandableHttpClient } from 'pip-services-rpc-node';
 import { AccountV1 } from './AccountV1';
 import { IAccountsClientV1 } from './IAccountsClientV1';
 export declare class AccountsHttpClientV1 extends CommandableHttpClient implements IAccountsClientV1 {

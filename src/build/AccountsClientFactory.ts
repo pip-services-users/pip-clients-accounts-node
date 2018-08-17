@@ -1,5 +1,5 @@
 import { Descriptor } from 'pip-services-commons-node';
-import { Factory } from 'pip-services-commons-node';
+import { Factory } from 'pip-services-components-node';
 
 import { AccountsNullClientV1 } from '../version1/AccountsNullClientV1';
 import { AccountsMemoryClientV1 } from '../version1/AccountsMemoryClientV1';
