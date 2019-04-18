@@ -1,17 +1,17 @@
-import { ConfigParams } from 'pip-services-commons-node';
-import { IReferences } from 'pip-services-commons-node';
-import { FilterParams } from 'pip-services-commons-node';
-import { PagingParams } from 'pip-services-commons-node';
-import { DataPage } from 'pip-services-commons-node';
-import { CommandableSenecaClient } from 'pip-services-seneca-node';
+import { ConfigParams } from 'pip-services3-commons-node';
+import { IReferences } from 'pip-services3-commons-node';
+import { FilterParams } from 'pip-services3-commons-node';
+import { PagingParams } from 'pip-services3-commons-node';
+import { DataPage } from 'pip-services3-commons-node';
+import { CommandableGrpcClient } from 'pip-services3-grpc-node';
 
 import { AccountV1 } from './AccountV1';
 import { IAccountsClientV1 } from './IAccountsClientV1';
 
-export class AccountsSenecaClientV1 extends CommandableSenecaClient implements IAccountsClientV1 {
+export class AccountsCommandableGrpcClientV1 extends CommandableGrpcClient implements IAccountsClientV1 {
 
     constructor(config?: any) {
-        super('accounts');
+        super('v1/accounts');
 
         if (config != null)
             this.configure(ConfigParams.fromValue(config));

@@ -1,4 +1,4 @@
-import { IStringIdentifiable } from 'pip-services-commons-node';
+import { IStringIdentifiable } from 'pip-services3-commons-node';
 export declare class AccountV1 implements IStringIdentifiable {
     constructor(id: string, login: string, name: string);
     id: string;
@@ -7,6 +7,7 @@ export declare class AccountV1 implements IStringIdentifiable {
     create_time: Date;
     deleted?: boolean;
     active: boolean;
+    about: string;
     time_zone: string;
     language: string;
     theme: string;

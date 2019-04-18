@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const pip_services_commons_node_1 = require("pip-services-commons-node");
-const pip_services_seneca_node_1 = require("pip-services-seneca-node");
-class AccountsSenecaClientV1 extends pip_services_seneca_node_1.CommandableSenecaClient {
+const pip_services3_commons_node_1 = require("pip-services3-commons-node");
+const pip_services3_grpc_node_1 = require("pip-services3-grpc-node");
+class AccountsCommandableGrpcClientV1 extends pip_services3_grpc_node_1.CommandableGrpcClient {
     constructor(config) {
-        super('accounts');
+        super('v1/accounts');
         if (config != null)
-            this.configure(pip_services_commons_node_1.ConfigParams.fromValue(config));
+            this.configure(pip_services3_commons_node_1.ConfigParams.fromValue(config));
     }
     getAccounts(correlationId, filter, paging, callback) {
         this.callCommand('get_accounts', correlationId, {
@@ -45,5 +45,5 @@ class AccountsSenecaClientV1 extends pip_services_seneca_node_1.CommandableSenec
         }, callback);
     }
 }
-exports.AccountsSenecaClientV1 = AccountsSenecaClientV1;
-//# sourceMappingURL=AccountsSenecaClientV1.js.map
+exports.AccountsCommandableGrpcClientV1 = AccountsCommandableGrpcClientV1;
+//# sourceMappingURL=AccountsCommandableGrpcClientV1.js.map

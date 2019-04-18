@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const pip_services_commons_node_1 = require("pip-services-commons-node");
+const pip_services3_commons_node_1 = require("pip-services3-commons-node");
 class AccountsNullClientV1 {
     getAccounts(correlationId, filter, paging, callback) {
-        callback(null, new pip_services_commons_node_1.DataPage([], 0));
+        callback(null, new pip_services3_commons_node_1.DataPage([], 0));
     }
     getAccountById(correlationId, id, callback) {
         callback(null, null);

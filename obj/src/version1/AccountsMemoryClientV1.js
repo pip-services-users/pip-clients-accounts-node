@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 let _ = require('lodash');
-const pip_services_commons_node_1 = require("pip-services-commons-node");
-const pip_services_commons_node_2 = require("pip-services-commons-node");
-const pip_services_commons_node_3 = require("pip-services-commons-node");
-const pip_services_commons_node_4 = require("pip-services-commons-node");
+const pip_services3_commons_node_1 = require("pip-services3-commons-node");
+const pip_services3_commons_node_2 = require("pip-services3-commons-node");
+const pip_services3_commons_node_3 = require("pip-services3-commons-node");
+const pip_services3_commons_node_4 = require("pip-services3-commons-node");
 class AccountsMemoryClientV1 {
     constructor(...accounts) {
         this._maxPageSize = 100;
@@ -24,7 +24,7 @@ class AccountsMemoryClientV1 {
         return false;
     }
     composeFilter(filter) {
-        filter = filter || new pip_services_commons_node_1.FilterParams();
+        filter = filter || new pip_services3_commons_node_1.FilterParams();
         let search = filter.getAsNullableString('search');
         let id = filter.getAsNullableString('id');
         let name = filter.getAsNullableString('name');
@@ -57,7 +57,7 @@ class AccountsMemoryClientV1 {
         let filterCurl = this.composeFilter(filter);
         let accounts = _.filter(this._accounts, filterCurl);
         // Extract a page
-        paging = paging != null ? paging : new pip_services_commons_node_2.PagingParams();
+        paging = paging != null ? paging : new pip_services3_commons_node_2.PagingParams();
         let skip = paging.getSkip(-1);
         let take = paging.getTake(this._maxPageSize);
         let total = null;
@@ -66,7 +66,7 @@ class AccountsMemoryClientV1 {
         if (skip > 0)
             accounts = _.slice(accounts, skip);
         accounts = _.take(accounts, take);
-        let page = new pip_services_commons_node_3.DataPage(accounts, total);
+        let page = new pip_services3_commons_node_3.DataPage(accounts, total);
         callback(null, page);
     }
     getAccountById(correlationId, id, callback) {
@@ -91,7 +91,7 @@ class AccountsMemoryClientV1 {
             return;
         }
         account = _.clone(account);
-        account.id = account.id || pip_services_commons_node_4.IdGenerator.nextLong();
+        account.id = account.id || pip_services3_commons_node_4.IdGenerator.nextLong();
         this._accounts.push(account);
         if (callback)
             callback(null, account);

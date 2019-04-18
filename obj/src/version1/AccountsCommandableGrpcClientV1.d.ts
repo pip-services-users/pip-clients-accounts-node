@@ -1,10 +1,10 @@
-import { FilterParams } from 'pip-services-commons-node';
-import { PagingParams } from 'pip-services-commons-node';
-import { DataPage } from 'pip-services-commons-node';
-import { CommandableSenecaClient } from 'pip-services-seneca-node';
+import { FilterParams } from 'pip-services3-commons-node';
+import { PagingParams } from 'pip-services3-commons-node';
+import { DataPage } from 'pip-services3-commons-node';
+import { CommandableGrpcClient } from 'pip-services3-grpc-node';
 import { AccountV1 } from './AccountV1';
 import { IAccountsClientV1 } from './IAccountsClientV1';
-export declare class AccountsSenecaClientV1 extends CommandableSenecaClient implements IAccountsClientV1 {
+export declare class AccountsCommandableGrpcClientV1 extends CommandableGrpcClient implements IAccountsClientV1 {
     constructor(config?: any);
     getAccounts(correlationId: string, filter: FilterParams, paging: PagingParams, callback: (err: any, page: DataPage<AccountV1>) => void): void;
     getAccountById(correlationId: string, id: string, callback: (err: any, account: AccountV1) => void): void;

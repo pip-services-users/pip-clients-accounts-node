@@ -4,7 +4,7 @@ This is a Node.js client SDK for [pip-services-accounts](https://github.com/pip-
 It provides an easy to use abstraction over communication protocols:
 
 * HTTP/REST client
-* Seneca client (see http://www.senecajs.org)
+* GRPC client
 * Direct client for monolytic deployments
 * Null client to be used in testing
 

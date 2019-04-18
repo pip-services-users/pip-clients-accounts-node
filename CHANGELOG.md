@@ -1,3 +1,11 @@
+<a name="1.1.0"></a> ### 1.1.0 (2019-04-18)
+
+#### Features
+* **grpc** Added GRPC and Commandable GRPC clients
+
+#### Breaking Changes
+* **seneca** Deprecated and removed Seneca clients
+
 <a name="1.0.0"></a> ### 1.0.0 (2017-04-02)
 
 #### Features
