@@ -5,7 +5,7 @@ const pip_services3_commons_node_1 = require("pip-services3-commons-node");
 const pip_services3_commons_node_2 = require("pip-services3-commons-node");
 const pip_services3_commons_node_3 = require("pip-services3-commons-node");
 const pip_services3_commons_node_4 = require("pip-services3-commons-node");
-const pip_services_commons_node_1 = require("pip-services-commons-node");
+const pip_services3_commons_node_5 = require("pip-services3-commons-node");
 class AccountsMemoryClientV1 {
     constructor(...accounts) {
         this._maxPageSize = 100;
@@ -93,7 +93,7 @@ class AccountsMemoryClientV1 {
         }
         let oldAccounts = this._accounts.filter((x) => { return x.login == account.login; });
         if (oldAccounts.length) {
-            let err = new pip_services_commons_node_1.BadRequestException(correlationId, "ACCOUNT_ALREADY_EXIST", "Account " + account.login + " already exists");
+            let err = new pip_services3_commons_node_5.BadRequestException(correlationId, "ACCOUNT_ALREADY_EXIST", "Account " + account.login + " already exists");
             callback(err, null);
             return;
         }
