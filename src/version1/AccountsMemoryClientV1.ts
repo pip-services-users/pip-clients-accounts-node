@@ -9,6 +9,7 @@ import { IdGenerator } from 'pip-services3-commons-node';
 
 import { IAccountsClientV1 } from './IAccountsClientV1';
 import { AccountV1 } from './AccountV1';
+import { BadRequestException } from 'pip-services-commons-node';
 
 export class AccountsMemoryClientV1 implements IAccountsClientV1 {
     private _maxPageSize: number = 100;
@@ -116,6 +117,13 @@ export class AccountsMemoryClientV1 implements IAccountsClientV1 {
         callback: (err: any, account: AccountV1) => void): void {
         if (account == null) {
             if (callback) callback(null, null);
+            return;
+        }
+
+        let oldAccounts = this._accounts.filter((x) => {return x.login == account.login;});
+        if (oldAccounts.length) {
+            let err = new BadRequestException(correlationId, "ACCOUNT_ALREADY_EXIST", "Account " + account.login + " already exists");
+            callback(err, null);
             return;
         }
 
