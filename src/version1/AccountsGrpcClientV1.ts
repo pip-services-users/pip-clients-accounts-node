@@ -14,7 +14,7 @@ import { AccountGrpcConverterV1 } from './AccountGrpcConverterV1';
 export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV1 {
         
     public constructor() {
-        super(services.AccountsClient)
+        super(services.AccountsClient);
     }
 
     public getAccounts(correlationId: string, filter: FilterParams, paging: PagingParams,
@@ -22,14 +22,8 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
 
         let request = new messages.AccountPageRequest();
 
-        paging = paging || new PagingParams();
-        let pagingParams = new messages.PagingParams();
-        pagingParams.setSkip(paging.skip);
-        pagingParams.setTake(paging.take);
-        pagingParams.setTotal(paging.total);
-        request.setPaging(pagingParams);
-
         AccountGrpcConverterV1.setMap(request.getFilterMap(), filter);
+        request.setPaging(AccountGrpcConverterV1.fromPagingParams(paging));
 
         let timing = this.instrument(correlationId, 'accounts.get_accounts');
 

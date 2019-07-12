@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 let _ = require('lodash');
 let services = require('../../../src/protos/accounts_v1_grpc_pb');
 let messages = require('../../../src/protos/accounts_v1_pb');
-const pip_services3_commons_node_1 = require("pip-services3-commons-node");
 const pip_services3_grpc_node_1 = require("pip-services3-grpc-node");
 const AccountGrpcConverterV1_1 = require("./AccountGrpcConverterV1");
 class AccountsGrpcClientV1 extends pip_services3_grpc_node_1.GrpcClient {
@@ -12,13 +11,8 @@ class AccountsGrpcClientV1 extends pip_services3_grpc_node_1.GrpcClient {
     }
     getAccounts(correlationId, filter, paging, callback) {
         let request = new messages.AccountPageRequest();
-        paging = paging || new pip_services3_commons_node_1.PagingParams();
-        let pagingParams = new messages.PagingParams();
-        pagingParams.setSkip(paging.skip);
-        pagingParams.setTake(paging.take);
-        pagingParams.setTotal(paging.total);
-        request.setPaging(pagingParams);
         AccountGrpcConverterV1_1.AccountGrpcConverterV1.setMap(request.getFilterMap(), filter);
+        request.setPaging(AccountGrpcConverterV1_1.AccountGrpcConverterV1.fromPagingParams(paging));
         let timing = this.instrument(correlationId, 'accounts.get_accounts');
         this.call('get_accounts', correlationId, request, (err, response) => {
             timing.endTiming();
