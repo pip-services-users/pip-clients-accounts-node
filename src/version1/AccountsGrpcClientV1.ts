@@ -9,7 +9,7 @@ import { GrpcClient } from 'pip-services3-grpc-node';
 
 import { IAccountsClientV1 } from './IAccountsClientV1';
 import { AccountV1 } from './AccountV1';
-import { AccountGrpcConverterV1 } from './AccountGrpcConverterV1';
+import { AccountsGrpcConverterV1 } from './AccountsGrpcConverterV1';
 
 export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV1 {
         
@@ -22,8 +22,8 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
 
         let request = new messages.AccountPageRequest();
 
-        AccountGrpcConverterV1.setMap(request.getFilterMap(), filter);
-        request.setPaging(AccountGrpcConverterV1.fromPagingParams(paging));
+        AccountsGrpcConverterV1.setMap(request.getFilterMap(), filter);
+        request.setPaging(AccountsGrpcConverterV1.fromPagingParams(paging));
 
         let timing = this.instrument(correlationId, 'accounts.get_accounts');
 
@@ -34,10 +34,10 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
                 timing.endTiming();
 
                 if (err == null && response.error != null)
-                    err = AccountGrpcConverterV1.toError(response.error);
+                    err = AccountsGrpcConverterV1.toError(response.error);
 
                 let result = response 
-                    ? AccountGrpcConverterV1.toAccountPage(response.getPage())
+                    ? AccountsGrpcConverterV1.toAccountPage(response.getPage())
                     : null;
 
                 callback(err, result);
@@ -60,10 +60,10 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
                 timing.endTiming();
 
                 if (err == null && response.error != null)
-                    err = AccountGrpcConverterV1.toError(response.error);
+                    err = AccountsGrpcConverterV1.toError(response.error);
 
                 let result = response 
-                    ? AccountGrpcConverterV1.toAccount(response.getAccount())
+                    ? AccountsGrpcConverterV1.toAccount(response.getAccount())
                     : null;
 
                 callback(err, result);
@@ -86,10 +86,10 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
                 timing.endTiming();
 
                 if (err == null && response.error != null)
-                    err = AccountGrpcConverterV1.toError(response.error);
+                    err = AccountsGrpcConverterV1.toError(response.error);
 
                 let result = response 
-                    ? AccountGrpcConverterV1.toAccount(response.getAccount())
+                    ? AccountsGrpcConverterV1.toAccount(response.getAccount())
                     : null;
 
                 callback(err, result);
@@ -112,10 +112,10 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
                 timing.endTiming();
 
                 if (err == null && response.error != null)
-                    err = AccountGrpcConverterV1.toError(response.error);
+                    err = AccountsGrpcConverterV1.toError(response.error);
 
                 let result = response 
-                    ? AccountGrpcConverterV1.toAccount(response.getAccount())
+                    ? AccountsGrpcConverterV1.toAccount(response.getAccount())
                     : null;
 
                 callback(err, result);
@@ -126,7 +126,7 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
     public createAccount(correlationId: string, account: AccountV1,
         callback: (err: any, result: AccountV1) => void): void {
 
-        let accountObj = AccountGrpcConverterV1.fromAccount(account);
+        let accountObj = AccountsGrpcConverterV1.fromAccount(account);
 
         let request = new messages.AccountObjectRequest();
         request.setAccount(accountObj);
@@ -140,10 +140,10 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
                 timing.endTiming();
 
                 if (err == null && response.error != null)
-                    err = AccountGrpcConverterV1.toError(response.error);
+                    err = AccountsGrpcConverterV1.toError(response.error);
 
                 let result = response 
-                    ? AccountGrpcConverterV1.toAccount(response.getAccount())
+                    ? AccountsGrpcConverterV1.toAccount(response.getAccount())
                     : null;
 
                 callback(err, result);
@@ -154,7 +154,7 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
     public updateAccount(correlationId: string, account: AccountV1,
         callback: (err: any, result: AccountV1) => void): void {
 
-        let accountObj = AccountGrpcConverterV1.fromAccount(account);
+        let accountObj = AccountsGrpcConverterV1.fromAccount(account);
 
         let request = new messages.AccountObjectRequest();
         request.setAccount(accountObj);
@@ -168,10 +168,10 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
                 timing.endTiming();
 
                 if (err == null && response.error != null)
-                    err = AccountGrpcConverterV1.toError(response.error);
+                    err = AccountsGrpcConverterV1.toError(response.error);
 
                 let result = response 
-                    ? AccountGrpcConverterV1.toAccount(response.getAccount())
+                    ? AccountsGrpcConverterV1.toAccount(response.getAccount())
                     : null;
 
                 callback(err, result);
@@ -194,10 +194,10 @@ export class AccountsGrpcClientV1 extends GrpcClient implements IAccountsClientV
                 timing.endTiming();
 
                 if (err == null && response.error != null)
-                    err = AccountGrpcConverterV1.toError(response.error);
+                    err = AccountsGrpcConverterV1.toError(response.error);
 
                 let result = response 
-                    ? AccountGrpcConverterV1.toAccount(response.getAccount())
+                    ? AccountsGrpcConverterV1.toAccount(response.getAccount())
                     : null;
 
                 callback(err, result);

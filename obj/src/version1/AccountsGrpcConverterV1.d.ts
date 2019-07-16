@@ -1,7 +1,7 @@
 import { DataPage } from 'pip-services3-commons-node';
 import { PagingParams } from 'pip-services3-commons-node';
 import { AccountV1 } from './AccountV1';
-export declare class AccountGrpcConverterV1 {
+export declare class AccountsGrpcConverterV1 {
     static fromError(err: any): any;
     static toError(obj: any): any;
     static setMap(map: any, values: any): void;

@@ -7,7 +7,7 @@ const pip_services3_commons_node_2 = require("pip-services3-commons-node");
 const pip_services3_commons_node_3 = require("pip-services3-commons-node");
 const pip_services3_commons_node_4 = require("pip-services3-commons-node");
 const pip_services3_commons_node_5 = require("pip-services3-commons-node");
-class AccountGrpcConverterV1 {
+class AccountsGrpcConverterV1 {
     static fromError(err) {
         if (err == null)
             return null;
@@ -21,7 +21,7 @@ class AccountGrpcConverterV1 {
         obj.setMessage(description.message);
         obj.setCause(description.cause);
         obj.setStackTrace(description.stack_trace);
-        AccountGrpcConverterV1.setMap(obj.getDetailsMap(), description.details);
+        AccountsGrpcConverterV1.setMap(obj.getDetailsMap(), description.details);
         return obj;
     }
     static toError(obj) {
@@ -36,21 +36,31 @@ class AccountGrpcConverterV1 {
             message: obj.getMessage(),
             cause: obj.getCause(),
             stack_trace: obj.getStackTrace(),
-            details: AccountGrpcConverterV1.getMap(obj.getDetailsMap())
+            details: AccountsGrpcConverterV1.getMap(obj.getDetailsMap())
         };
         return pip_services3_commons_node_5.ApplicationExceptionFactory.create(description);
     }
     static setMap(map, values) {
         if (values == null)
             return;
-        for (let propName in values) {
-            if (values.hasOwnProperty(propName))
-                map[propName] = values[propName];
+        if (_.isFunction(values.toObject))
+            values = values.toObject();
+        if (_.isArray(values)) {
+            for (let entry of values) {
+                if (_.isArray(entry))
+                    map[entry[0]] = entry[1];
+            }
+        }
+        else {
+            for (let propName in values) {
+                if (values.hasOwnProperty(propName))
+                    map[propName] = values[propName];
+            }
         }
     }
     static getMap(map) {
         let values = {};
-        AccountGrpcConverterV1.setMap(values, map);
+        AccountsGrpcConverterV1.setMap(values, map);
         return values;
     }
     static toJson(value) {
@@ -92,8 +102,8 @@ class AccountGrpcConverterV1 {
         obj.setTimeZone(account.time_zone);
         obj.setLanguage(account.language);
         obj.setTheme(account.theme);
-        obj.setCustomHdr(AccountGrpcConverterV1.toJson(account.custom_hdr));
-        obj.setCustomDat(AccountGrpcConverterV1.toJson(account.custom_dat));
+        obj.setCustomHdr(AccountsGrpcConverterV1.toJson(account.custom_hdr));
+        obj.setCustomDat(AccountsGrpcConverterV1.toJson(account.custom_dat));
         return obj;
     }
     static toAccount(obj) {
@@ -110,8 +120,8 @@ class AccountGrpcConverterV1 {
             time_zone: obj.getTimeZone(),
             language: obj.getLanguage(),
             theme: obj.getTheme(),
-            custom_hdr: AccountGrpcConverterV1.fromJson(obj.getCustomHdr()),
-            custom_dat: AccountGrpcConverterV1.fromJson(obj.getCustomDat())
+            custom_hdr: AccountsGrpcConverterV1.fromJson(obj.getCustomHdr()),
+            custom_dat: AccountsGrpcConverterV1.fromJson(obj.getCustomDat())
         };
         return account;
     }
@@ -120,14 +130,14 @@ class AccountGrpcConverterV1 {
             return null;
         let obj = new messages.AccountPage();
         obj.setTotal(page.total);
-        let data = _.map(page.data, AccountGrpcConverterV1.fromAccount);
+        let data = _.map(page.data, AccountsGrpcConverterV1.fromAccount);
         obj.setDataList(data);
         return obj;
     }
     static toAccountPage(obj) {
         if (obj == null)
             return null;
-        let data = _.map(obj.getDataList(), AccountGrpcConverterV1.toAccount);
+        let data = _.map(obj.getDataList(), AccountsGrpcConverterV1.toAccount);
         let page = {
             total: obj.getTotal(),
             data: data
@@ -135,5 +145,5 @@ class AccountGrpcConverterV1 {
         return page;
     }
 }
-exports.AccountGrpcConverterV1 = AccountGrpcConverterV1;
-//# sourceMappingURL=AccountGrpcConverterV1.js.map
+exports.AccountsGrpcConverterV1 = AccountsGrpcConverterV1;
+//# sourceMappingURL=AccountsGrpcConverterV1.js.map
