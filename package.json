@@ -1,6 +1,6 @@
 {
     "name": "pip-clients-accounts-node",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "author": "Conceptual Vision Consulting LLC",
     "description": "Node.js client sdk for pip-services-accounts microservice",
     "contributors": [
@@ -52,12 +52,9 @@
         "@types/async": "^2.0.0",
         "@types/chai": "*",
         "@types/mocha": "*",
-        "@types/mongodb": "^2.1.38",
-        "@types/mongoose": "^4.7.4",
         "restify": "^4.3.0",
         "chai": "*",
         "mocha": "*",
-        "aws-sdk": "*",
-        "pip-services-accounts-node": "git+ssh://git@github.com:pip-services-users/pip-services-accounts-node.git"
+        "pip-services-accounts-node": "^1.2.0"
     }
 }

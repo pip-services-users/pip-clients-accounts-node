@@ -17,11 +17,11 @@ class AccountsClientFactory extends pip_services3_components_node_1.Factory {
         this.registerAsType(AccountsClientFactory.CommandableGrpcClientV1Descriptor, AccountsCommandableGrpcClientV1_1.AccountsCommandableGrpcClientV1);
     }
 }
+exports.AccountsClientFactory = AccountsClientFactory;
 AccountsClientFactory.Descriptor = new pip_services3_commons_node_1.Descriptor('pip-services-accounts', 'factory', 'default', 'default', '1.0');
 AccountsClientFactory.NullClientV1Descriptor = new pip_services3_commons_node_1.Descriptor('pip-services-accounts', 'client', 'null', 'default', '1.0');
 AccountsClientFactory.MemoryClientV1Descriptor = new pip_services3_commons_node_1.Descriptor('pip-services-accounts', 'client', 'memory', 'default', '1.0');
 AccountsClientFactory.DirectClientV1Descriptor = new pip_services3_commons_node_1.Descriptor('pip-services-accounts', 'client', 'direct', 'default', '1.0');
 AccountsClientFactory.HttpClientV1Descriptor = new pip_services3_commons_node_1.Descriptor('pip-services-accounts', 'client', 'http', 'default', '1.0');
 AccountsClientFactory.CommandableGrpcClientV1Descriptor = new pip_services3_commons_node_1.Descriptor('pip-services-accounts', 'client', 'commandable-grpc', 'default', '1.0');
-exports.AccountsClientFactory = AccountsClientFactory;
 //# sourceMappingURL=AccountsClientFactory.js.map
